@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 23:56:29 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/01/30 00:05:25 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/01/31 19:43:30 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,19 @@ static void saveData(std::string message, std::string& datapoint)
 ContactList::Contact AddContact(void)
 {
 	ContactList::Contact contact;
-	
+	std::string s;
+
 	std::cout << "----Creating Contact-----\n";
-	saveData("First Name: ", contact.firstName);
-	saveData("Last Name: ", contact.lastName);
-	saveData("Nickname: ", contact.nickname);
-	saveData("Phone number: ", contact.phoneNumber);
-	saveData("Darkest secret: ", contact.darkestSecret);
+	saveData("First Name: ", s);
+	contact.setInfo(s, FIRST);
+	saveData("Last Name: ", s);
+	contact.setInfo(s, LAST);
+	saveData("Nickname: ", s);
+	contact.setInfo(s, NICKNAME);
+	saveData("Phone number: ", s);
+	contact.setInfo(s, PHONE);
+	saveData("Darkest secret: ", s);
+	contact.setInfo(s, SECRET);
 	std::cout << "-----Contact Saved!-----\n";
 	return (contact);
 }

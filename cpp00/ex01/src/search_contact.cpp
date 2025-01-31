@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 01:57:12 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/01/30 14:08:25 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/01/31 19:45:35 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,21 @@ static void PrintCat(std::string s)
 
 static void PrintContactInfo(ContactList::Contact contact)
 {
-	PrintCat(contact.firstName);
+	PrintCat(contact.getInfo(FIRST));
 	std::cout << " | ";
-	PrintCat(contact.lastName);
+	PrintCat(contact.getInfo(LAST));
 	std::cout << " | ";
-	PrintCat(contact.nickname);
+	PrintCat(contact.getInfo(NICKNAME));
 }
 
 static void PrintFullContact(ContactList::Contact contact)
 {
 	std::cout << "\n-----Contact_info-----\n";
-	std::cout << "First Name: " << contact.firstName << std::endl;
-	std::cout << "Last Name: " << contact.lastName << std::endl;
-	std::cout << "Nickname: " << contact.nickname << std::endl;
-	std::cout << "Phone Number: " << contact.phoneNumber << std::endl;
-	std::cout << "Darkest Secret: " << contact.darkestSecret << std::endl;
+	std::cout << "First Name: " << contact.getInfo(FIRST) << std::endl;
+	std::cout << "Last Name: " << contact.getInfo(LAST) << std::endl;
+	std::cout << "Nickname: " << contact.getInfo(NICKNAME) << std::endl;
+	std::cout << "Phone Number: " << contact.getInfo(PHONE) << std::endl;
+	std::cout << "Darkest Secret: " << contact.getInfo(SECRET) << std::endl;
 	std::cout << "----------------------\n";
 }
 
@@ -63,7 +63,7 @@ static void ChooseContact(ContactList::Phonebook phonebook)
 		return ;
 	}
 	int i = s[0] - 48;
-	if (phonebook.contact[i].firstName.empty() == 1)
+	if (phonebook.contact[i].getInfo(FIRST).empty() == 1)
 	{
 		std::cout << "Index number out of range. Try Again...\n";
 		ChooseContact(phonebook);
@@ -77,7 +77,7 @@ void SearchContacts(ContactList::Phonebook phoneBook)
 {
 	ContactList::Contact contact;
 	
-	if (phoneBook.contact[0].firstName.empty() == 1)
+	if (phoneBook.contact[0].getInfo(FIRST).empty() == 1)
 	{
 		std::cout << "No Contacts saved in the phonebook...\n";
 		return ;
@@ -87,7 +87,7 @@ void SearchContacts(ContactList::Phonebook phoneBook)
 	for (int i = 0; i < 8; i++)
 	{
 		contact = phoneBook.contact[i];
-		if (contact.firstName.empty() == 1)
+		if (contact.getInfo(FIRST).empty() == 1)
 			break;
 		std::cout << "       [" << i << "]" << " | ";
 		PrintContactInfo(contact);

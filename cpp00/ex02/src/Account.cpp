@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 00:07:55 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/01/30 03:30:56 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/01/31 19:48:52 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ bool	Account::makeWithdrawal(int withdrawal)
 	if (_amount < withdrawal)
 	{
 		_displayTimestamp();
-		std::cout << "index:" << _accountIndex << ";p_amount:" << _amount << ";withdrawal refused" << std::endl;
+		std::cout << "index:" << _accountIndex << ";p_amount:" << _amount << ";withdrawal:refused" << std::endl;
 		return false;
 	}
 	_amount -= withdrawal; //user
@@ -100,5 +100,5 @@ void	Account::displayStatus( void ) const
 
 void	Account::_displayTimestamp( void )
 {
-	std::cout << "[20250130_122454] ";
+	std::cout << "[19920104_091532] ";
 }
