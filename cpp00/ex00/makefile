@@ -6,7 +6,7 @@
 #    By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/27 16:49:13 by mdomnik           #+#    #+#              #
-#    Updated: 2025/01/27 16:56:18 by mdomnik          ###   ########.fr        #
+#    Updated: 2025/02/03 20:10:48 by mdomnik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = megaphone
 SRC = megaphone.cpp
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.cpp=.o)))
-COMPILER = g++
+COMPILER = c++
 FLAGS = -std=c++98 -Wall -Wextra -Werror
 
 all: $(NAME)
