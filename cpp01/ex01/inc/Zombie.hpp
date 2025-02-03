@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:52:07 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/01/30 14:59:47 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/02/03 16:42:18 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ class Zombie
 
 	public:
 		Zombie();
-		Zombie(std::string name);
 		~Zombie(void);
 
 		void setName(std::string name);

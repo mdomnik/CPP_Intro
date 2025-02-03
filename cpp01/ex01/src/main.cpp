@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:51:53 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/01/31 17:09:44 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/02/03 16:20:10 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int main(void)
 {
-	int N = 10;
+	int N = 20;
 
 	Zombie *horde = zombieHorde(N, "Zombie");
 

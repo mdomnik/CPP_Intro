@@ -6,7 +6,7 @@
 #    By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/30 13:51:32 by mdomnik           #+#    #+#              #
-#    Updated: 2025/01/31 17:09:27 by mdomnik          ###   ########.fr        #
+#    Updated: 2025/02/03 15:31:37 by mdomnik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(COMPILER) $(FLAGS) $^ -o $@
 
-$(OBJ_DIR)/%.o: %.cpp | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: src/%.cpp | $(OBJ_DIR)
 	$(COMPILER) $(FLAGS) -c $< -o $@
 
 $(OBJ_DIR):

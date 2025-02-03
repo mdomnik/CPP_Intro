@@ -6,11 +6,13 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:52:18 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/01/31 17:11:33 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/02/03 15:33:17 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Zombie.hpp"
+
+Zombie::Zombie() {}
 
 Zombie::Zombie(std::string name) : name(name) {}
 
