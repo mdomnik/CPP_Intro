@@ -5,13 +5,13 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/01/30 13:51:32 by mdomnik           #+#    #+#              #
-#    Updated: 2025/02/04 10:03:16 by mdomnik          ###   ########.fr        #
+#    Created: 2025/02/04 10:02:11 by mdomnik           #+#    #+#              #
+#    Updated: 2025/02/04 17:19:34 by mdomnik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = zombie
-SRC = src/Zombie.cpp src/newZombie.cpp src/randomChump.cpp src/main.cpp
+NAME = fixed
+SRC = src/main.cpp src/Fixed.cpp src/bsp.cpp src/Point.cpp
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.cpp=.o)))
 COMPILER = c++

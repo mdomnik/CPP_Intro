@@ -6,7 +6,7 @@
 #    By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/30 13:51:32 by mdomnik           #+#    #+#              #
-#    Updated: 2025/01/31 17:08:46 by mdomnik          ###   ########.fr        #
+#    Updated: 2025/02/04 10:03:16 by mdomnik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = violence
 SRC = src/main.cpp src/Weapon.cpp src/HumanA.cpp src/HumanB.cpp
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.cpp=.o)))
-COMPILER = g++
+COMPILER = c++
 FLAGS = -std=c++98 -Wall -Wextra -Werror
 
 all: $(NAME)
