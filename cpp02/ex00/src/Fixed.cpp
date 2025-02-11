@@ -6,13 +6,11 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:43:43 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/02/04 11:21:07 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/02/11 14:46:04 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Fixed.hpp"
-
-const int Fixed::_fracBits = 8;
 
 // Default constructor
 Fixed::Fixed(void) : _value(0)
@@ -24,7 +22,7 @@ Fixed::Fixed(void) : _value(0)
 Fixed::Fixed(const Fixed &other)
 {
 	std::cout << "Copy constructor called" << std::endl;
-	*this = other;
+	*this = other; //should just equal value
 }
 
 // Copy assignment operator

@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:08:44 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/02/04 18:03:30 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/02/11 14:42:43 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ class Fixed
 {
 	private:
 		int					_value;
-		static const int	_fracBits;
+		static const int _fracBits = 8;
 
 	public:
 		Fixed(void); //default constructor
