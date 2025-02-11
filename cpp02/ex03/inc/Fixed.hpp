@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:08:44 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/02/04 13:51:37 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/02/11 14:55:34 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ class Fixed
 {
 	private:
 		int					_value; //int holding fixed-point representation
-		static const int	_fracBits; //constant telling us how many bits are used for fractions (8 bits, meaning a value of 256 (_value / 256))
+		static const int	_fracBits = 8; //constant telling us how many bits are used for fractions (8 bits, meaning a value of 256 (_value / 256))
 
 	public:
 		Fixed(void); //default constructor
