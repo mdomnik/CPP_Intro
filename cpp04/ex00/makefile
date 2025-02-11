@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/02/01 22:51:18 by mdomnik           #+#    #+#              #
-#    Updated: 2025/02/11 14:32:48 by mdomnik          ###   ########.fr        #
+#    Created: 2025/02/06 16:36:58 by mdomnik           #+#    #+#              #
+#    Updated: 2025/02/06 16:42:46 by mdomnik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ CHECK_MARK = $(MAGENTA)✔$(RESET)
 ROCKET     = 🚀
 
 # Project variables
-NAME = Harl
-SRC = src/main.cpp src/Harl.cpp
+NAME = polymorth
+SRC = src/main.cpp src/Animal.cpp src/Cat.cpp src/Dog.cpp
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.cpp=.o)))
 COMPILER = c++

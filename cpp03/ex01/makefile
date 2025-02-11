@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/02/01 22:51:18 by mdomnik           #+#    #+#              #
-#    Updated: 2025/02/11 14:32:48 by mdomnik          ###   ########.fr        #
+#    Created: 2025/02/05 11:24:17 by mdomnik           #+#    #+#              #
+#    Updated: 2025/02/05 14:08:27 by mdomnik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ CHECK_MARK = $(MAGENTA)✔$(RESET)
 ROCKET     = 🚀
 
 # Project variables
-NAME = Harl
-SRC = src/main.cpp src/Harl.cpp
+NAME = scavtrap
+SRC = src/main.cpp src/ClapTrap.cpp src/ScavTrap.cpp
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.cpp=.o)))
 COMPILER = c++
@@ -62,3 +62,7 @@ re: fclean all
 
 # Phony targets
 .PHONY: all clean fclean re
+
+
+
+
