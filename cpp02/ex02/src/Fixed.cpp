@@ -6,13 +6,11 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:43:43 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/02/04 13:54:35 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/02/11 14:52:28 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Fixed.hpp"
-
-const int Fixed::_fracBits = 8;
 
 // Default constructor initializes fixed-point number to 0
 Fixed::Fixed(void) : _value(0) {}
