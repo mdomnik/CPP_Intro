@@ -6,13 +6,11 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:43:43 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/02/04 13:03:39 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/02/11 14:50:00 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Fixed.hpp"
-
-const int Fixed::_fracBits = 8;
 
 // Default constructor initializes fixed-point number to 0
 Fixed::Fixed(void) : _value(0)
@@ -74,7 +72,7 @@ float Fixed::toFloat(void) const
 //fixed point to int; discards fractional part, converts to int; _value / 2^_fracBits
 int Fixed::toInt(void) const
 {
-	return ((_value / (1  << _fracBits)));
+	return _value >> _fracBits; // Right shift to get integer part
 }
 
 //overload for (<<) insertion of floating-point representation of the fixed point number into the output stream passed as a parameter
