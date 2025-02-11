@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 14:52:25 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/02/06 18:09:52 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/02/11 16:19:12 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,14 @@ DiamondTrap::DiamondTrap(void) : ClapTrap("Diamond_clap_name"), _name("DiamondTr
 
 //name constructor
 DiamondTrap::DiamondTrap(std::string name)
-	: ClapTrap(name + "_clap_name"), ScavTrap(name), FragTrap(name), _name(name)
+	: ClapTrap(name + "_clap_name"), ScavTrap(), FragTrap(), _name(name)
 {
 	_hitPoints = FragTrap::_hitPoints;
 	_energyPoints = ScavTrap::_energyPoints;
 	_attackDamage = FragTrap::_attackDamage;
 	std::cout << "DiamondTrap " << _name << " is created! (Name constructor)" << std::endl;
 }
+
 
 //copy constructor
 DiamondTrap::DiamondTrap(const DiamondTrap &other)
@@ -47,29 +48,30 @@ DiamondTrap & DiamondTrap::operator=(const DiamondTrap &other)
 {
 	if (this != &other)
 	{
-		ClapTrap::_name = other._name + "_clap_name";
+		ScavTrap::operator=(other);
+		FragTrap::operator=(other);
 		_name = other._name;
-		_hitPoints = other._hitPoints;
-		_energyPoints = other._energyPoints;
-		_attackDamage = other._attackDamage;
 	}
 	std::cout << "DiamondTrap " << _name << " is assigned! (Copy assignment constructor)" << std::endl;
 	return *this;
 }
 
 
+
 // Destructor
 DiamondTrap::~DiamondTrap(void)
 {
-	std::cout << "DiamondTrap " << _name << " destroyed! (Destructor)" << std::endl;
+	std::cout << "DiamondTrap " << _name << " is destroyed! (Destructor)" << std::endl;
 }
 
 void DiamondTrap::attack(std::string const &target)
 {
+	std::cout << "DiamondTrap " << _name << " uses ScavTrap's attack!" << std::endl;
 	ScavTrap::attack(target);
 }
 
+
 void DiamondTrap::whoAmI(void)
 {
-	std::cout << "DiamondTrap name: " << _name << ", ClapTrap base name: " << ClapTrap::_name << std::endl;
+	std::cout << "I am DiamondTrap: " << _name << " and my ClapTrap name is: " << ClapTrap::_name << "!" << std::endl;
 }
