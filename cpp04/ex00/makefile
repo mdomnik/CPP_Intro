@@ -6,7 +6,7 @@
 #    By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/06 16:36:58 by mdomnik           #+#    #+#              #
-#    Updated: 2025/02/06 16:42:46 by mdomnik          ###   ########.fr        #
+#    Updated: 2025/02/12 21:56:16 by mdomnik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ ROCKET     = 🚀
 
 # Project variables
 NAME = polymorth
-SRC = src/main.cpp src/Animal.cpp src/Cat.cpp src/Dog.cpp
+SRC = src/main.cpp src/Animal.cpp src/Cat.cpp src/Dog.cpp src/WrongAnimal.cpp src/WrongCat.cpp
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.cpp=.o)))
 COMPILER = c++

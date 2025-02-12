@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Dog.hpp                                            :+:      :+:    :+:   */
+/*   WrongAnimal.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 16:40:55 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/02/12 21:46:49 by mdomnik          ###   ########.fr       */
+/*   Created: 2025/02/12 21:49:09 by mdomnik           #+#    #+#             */
+/*   Updated: 2025/02/12 23:02:59 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOG_HPP
-# define DOG_HPP
+#ifndef WRONGANIMAL_HPP
+# define WRONGANIMAL_HPP
 
-#include "Animal.hpp"
+#include <string>
 
-class Dog : public Animal
+class WrongAnimal
 {
-	public:
-		Dog(void); //default constructor
-		Dog(const Dog &other); //copy constructor
-		Dog & operator = (const Dog &other); //copy assignment constructor
-		~Dog(void); //deconstructor
+	protected:
+		std::string type;
 	
+	public:
+		WrongAnimal(void); //default constructor
+		WrongAnimal(std::string name); //name constructor
+		WrongAnimal(const WrongAnimal &other); //copy constructor
+		WrongAnimal & operator = (const WrongAnimal &other); //copy assignment constructor
+		~WrongAnimal(void); //deconstructor
+
+		std::string getType(void) const;
 		void makeSound(void) const;
 };
 
