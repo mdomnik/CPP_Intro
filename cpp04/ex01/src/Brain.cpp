@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 23:24:58 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/02/12 23:54:36 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/02/13 15:39:35 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ Brain::Brain(void)
 }
 
 // Copy Constructor
-Brain::Brain(const Brain &other) : ideas(other.ideas)
+Brain::Brain(const Brain &other)
 {
+	for (int i = 0; i < 100; i++)
+		ideas[i] = other.ideas[i];
 	std::cout << "Brain" << " is copied! (Copy constructor)" << std::endl;
 }
 
