@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 02:24:04 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/02/13 02:57:34 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/02/13 04:25:08 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,16 @@
 #include "AMateria.hpp"
 #include <string>
 
+#define FloorSpace 20
+
 class Character : public ICharacter
 {
 	private:
 		std::string name;
 		AMateria *slot[4];
-	
+		static AMateria *materiasDropped[FloorSpace];
+		static int		dropped;
+
 	public:
 		Character();
 		Character(std::string const &name);

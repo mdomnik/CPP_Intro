@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 01:46:49 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/02/13 03:41:21 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/02/13 04:04:37 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ Ice* Ice::clone() const
 {
 	return new Ice(*this);
 }
-
 
 //use function
 void Ice::use(ICharacter& target)

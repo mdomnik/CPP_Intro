@@ -6,12 +6,15 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 02:39:58 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/02/13 04:01:33 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/02/13 04:29:41 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Character.hpp"
 #include <iostream>
+
+AMateria* Character::materiasDropped[FloorSpace] = { NULL };
+int Character::dropped = 0;
 
 // Default Constructor
 Character::Character() : name("John")
@@ -74,6 +77,20 @@ Character::~Character()
 			slot[i] = NULL;
 		}
 	}
+	if (dropped > 0)
+	{
+		std::cout << "Cleaning up dropped Materia...\n";
+		for (int i = 0; i < dropped; i++)
+		{
+			if (materiasDropped[i])
+			{
+				delete materiasDropped[i];
+				materiasDropped[i] = NULL;
+			}
+		}
+		dropped = 0;
+	}
+	
 }
 
 // Get Name
@@ -99,12 +116,33 @@ void Character::equip(AMateria *m)
 void Character::unequip(int idx)
 {
 	if (idx >= 0 && idx < 4)
+	{
+		if (dropped < FloorSpace)
+		{
+			materiasDropped[dropped] = slot[idx];
+			dropped++;
+		}
+		else
+		{
+			std::cout << "Too Many items on the floor, removing all..." << std::endl;
+			for (int i = 0; i < dropped; i++)
+			{
+				delete materiasDropped[i];
+				materiasDropped[i] = NULL;
+			}
+			std::cout << "Floor Cleared!" << std::endl;
+			dropped = 0;
+			materiasDropped[dropped] = slot[idx];
+			dropped++;
+		}
 		slot[idx] = NULL;
+	}
 }
 
 // Use Materia
 void Character::use(int idx, ICharacter &target)
 {
-	if (idx >= 0 && idx < 4 && slot[idx])
-		slot[idx]->use(target);
+		if (idx >= 0 && idx < 4)
+			if (slot[idx])
+				slot[idx]->use(target);
 }

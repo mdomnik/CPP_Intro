@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 01:19:06 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/02/13 04:03:53 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/02/13 04:36:43 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,134 +43,107 @@ int main()
 	{
 		std::cout << "\033[1;35m\n=== Deep Copy Test ===\033[0m" << std::endl;
 
-		Character original("Gabbro");
+		Character gabbro("Gabbro");
 		AMateria* ice = new Ice();
 		AMateria* cure = new Cure();
 
-		original.equip(ice);
-		original.equip(cure);
+		gabbro.equip(ice);
+		gabbro.equip(cure);
 
-		Character copied(original); // Deep copy test
+		Character gabbroCopy(gabbro); // Deep copy test
 
-		std::cout << "Original uses materia:\n";
-		original.use(0, original);
-		original.use(1, original);
+		std::cout << "gabbro uses materia:\n";
+		gabbro.use(0, gabbro);
+		gabbro.use(1, gabbro);
 
-		std::cout << "Copied uses materia:\n";
-		copied.use(0, copied);
-		copied.use(1, copied);
+		std::cout << "gabbroCopy uses materia:\n";
+		gabbroCopy.use(0, gabbroCopy);
+		gabbroCopy.use(1, gabbroCopy);
 
 		
-		copied.unequip(0);
-		copied.unequip(1);
+		gabbroCopy.unequip(0);
+		gabbroCopy.unequip(1);
 		
-		std::cout << "Original still has its materia:\n";
-		original.use(0, original);
-		original.use(1, original);
+		std::cout << "gabbro still has its materia:\n";
+		gabbro.use(0, gabbro);
+		gabbro.use(1, gabbro);
 
 		std::cout << "\033[1;35m=== Deep Copy Test Concluded ===\033[0m" << std::endl;
 	}
 
-	// // Full Inventory Test
-	// {
-	// 	std::cout << "\033[1;35m=== Full Inventory Test ===\033[0m" << std::endl;
+	// Full Inventory Test
+	{
+		std::cout << "\033[1;35m\n=== Full Inventory Test ===\033[0m" << std::endl;
 
-	// 	Character mage("Mage");
-	// 	AMateria* ice1 = new Ice();
-	// 	AMateria* ice2 = new Ice();
-	// 	AMateria* cure1 = new Cure();
-	// 	AMateria* cure2 = new Cure();
-	// 	AMateria* extra = new Ice();
+		Character feldspar("feldspar");
+		AMateria* ice1 = new Ice();
+		AMateria* ice2 = new Ice();
+		AMateria* cure1 = new Cure();
+		AMateria* cure2 = new Cure();
+		AMateria* extra = new Ice();
 
-	// 	mage.equip(ice1);
-	// 	mage.equip(ice2);
-	// 	mage.equip(cure1);
-	// 	mage.equip(cure2);
+		feldspar.equip(ice1);
+		feldspar.equip(ice2);
+		feldspar.equip(cure1);
+		feldspar.equip(cure2);
 
-	// 	std::cout << "Trying to equip an extra materia (should not be added):\n";
-	// 	mage.equip(extra); // Should not be added
+		feldspar.equip(extra); // Should not be added
 
-	// 	std::cout << "Using all slots:\n";
-	// 	for (int i = 0; i < 4; i++) {
-	// 		mage.use(i, mage);
-	// 	}
+		std::cout << "Using all slots:\n";
+		for (int i = 0; i < 4; i++)
+			feldspar.use(i, feldspar);
+		delete extra;
+		std::cout << "\033[1;35m=== Full Inventory Test Concluded ===\033[0m" << std::endl;
+	}
 
-	// 	delete extra;
-	// 	std::cout << "\033[1;35m=== Full Inventory Test Concluded ===\033[0m" << std::endl;
-	// }
+	// Unequip Handling Test
+	{
+		std::cout << "\033[1;35m\n=== Unequip Handling Test ===\033[0m" << std::endl;
 
-	// // Unequip Handling Test
-	// {
-	// 	std::cout << "\033[1;35m=== Unequip Handling Test ===\033[0m" << std::endl;
+		Character riebeck("riebeck");
+		AMateria* ice = new Ice();
+		AMateria* cure = new Cure();
 
-	// 	Character warrior("Warrior");
-	// 	AMateria* ice = new Ice();
-	// 	AMateria* cure = new Cure();
+		riebeck.equip(ice);
+		riebeck.equip(cure);
 
-	// 	warrior.equip(ice);
-	// 	warrior.equip(cure);
+		std::cout << "Using before unequip:\n";
+		riebeck.use(0, riebeck);
+		riebeck.use(1, riebeck);
 
-	// 	// Store reference before unequipping
-	// 	AMateria* savedMateria = ice;
+		riebeck.unequip(0); // Should not delete ice
 
-	// 	std::cout << "Using before unequip:\n";
-	// 	warrior.use(0, warrior);
-	// 	warrior.use(1, warrior);
+		std::cout << "Using unequipped slot (should do nothing):\n";
+		riebeck.use(0, riebeck);
 
-	// 	warrior.unequip(0); // Should not delete ice
+		std::cout << "\033[1;35m=== Unequip Handling Test Concluded ===\033[0m" << std::endl;
+	}
 
-	// 	std::cout << "Using unequipped slot (should do nothing):\n";
-	// 	warrior.use(0, warrior);
+	// Materia Source Learning & Creating
+	{
+		std::cout << "\033[1;35m\n=== Materia Source Learning & Creating ===\033[0m" << std::endl;
 
-	// 	delete savedMateria;
-	// 	delete cure;
+		MateriaSource source;
+		source.learnMateria(new Ice());
+		source.learnMateria(new Cure());
 
-	// 	std::cout << "\033[1;35m=== Unequip Handling Test Concluded ===\033[0m" << std::endl;
-	// }
+		AMateria* createdIce = source.createMateria("ice");
+		AMateria* createdCure = source.createMateria("cure");
+		AMateria* unknownMateria = source.createMateria("fire");
 
-	// // Materia Source Learning & Creating
-	// {
-	// 	std::cout << "\033[1;35m=== Materia Source Learning & Creating ===\033[0m" << std::endl;
+		if (createdIce)
+			std::cout << "Created Ice successfully\n";
+		if (createdCure)
+			std::cout << "Created Cure successfully\n";
+		if (!unknownMateria)
+			std::cout << "Unknown Materia\n";
 
-	// 	MateriaSource source;
-	// 	source.learnMateria(new Ice());
-	// 	source.learnMateria(new Cure());
+		delete createdIce;
+		delete createdCure;
 
-	// 	AMateria* createdIce = source.createMateria("ice");
-	// 	AMateria* createdCure = source.createMateria("cure");
-	// 	AMateria* unknownMateria = source.createMateria("fire");
+		std::cout << "\033[1;35m=== Materia Source Learning & Creating Concluded ===\033[0m" << std::endl;
+	}
 
-	// 	if (createdIce) std::cout << "Created Ice successfully.\n";
-	// 	if (createdCure) std::cout << "Created Cure successfully.\n";
-	// 	if (!unknownMateria) std::cout << "Unknown Materia creation returned NULL as expected.\n";
-
-	// 	delete createdIce;
-	// 	delete createdCure;
-
-	// 	std::cout << "\033[1;35m=== Materia Source Learning & Creating Concluded ===\033[0m" << std::endl;
-	// }
-
-	// // Edge Cases Test
-	// {
-	// 	std::cout << "\033[1;35m=== Edge Cases Test ===\033[0m" << std::endl;
-
-	// 	Character rogue("Rogue");
-
-	// 	// Unequip when inventory is empty
-	// 	std::cout << "Trying to unequip from an empty inventory:\n";
-	// 	rogue.unequip(0);
-
-	// 	// Use non-existent materia
-	// 	std::cout << "Trying to use an empty slot:\n";
-	// 	rogue.use(0, rogue);
-
-	// 	// Equip NULL
-	// 	std::cout << "Trying to equip NULL Materia:\n";
-	// 	rogue.equip(NULL);
-
-	// 	std::cout << "\033[1;35m=== Edge Cases Test Concluded ===\033[0m" << std::endl;
-	// }
-
-	std::cout << "\033[1;35m=== All Tests Concluded ===\033[0m\n" << std::endl;
+	std::cout << "\033[1;32m\n=== All Tests Concluded ===\033[0m\n" << std::endl;
 	return 0;
 }

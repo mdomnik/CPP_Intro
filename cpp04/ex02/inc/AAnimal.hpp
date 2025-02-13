@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 00:57:31 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/02/13 01:14:52 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/02/13 02:45:02 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ class AAnimal
 	
 	public:
 		AAnimal(void); //default constructor
-		AAnimal(std::string name); //name constructor
 		AAnimal(const AAnimal &other); //copy constructor
 		AAnimal & operator = (const AAnimal &other); //copy assignment constructor
 		virtual ~AAnimal(void); //deconstructor
