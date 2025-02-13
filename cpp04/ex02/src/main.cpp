@@ -6,26 +6,28 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:38:32 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/02/13 00:39:04 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/02/13 01:12:17 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Animal.hpp"
-#include "../inc/Cat.hpp"
+#include "../inc/AAnimal.hpp"
 #include "../inc/Dog.hpp"
+#include "../inc/Cat.hpp"
 #include "../inc/WrongAnimal.hpp"
 #include "../inc/WrongCat.hpp"
 #include <iostream>
 
 int main()
 {
+	//Default Polymorthism test
 	{
 		std::cout << "\033[1;35m=== Default Test ===\033[0m" << std::endl;
 
 		std::cout << "\033[1;32m=== Constructors ===\033[0m" << std::endl;
 		const Animal* meta = new Animal();
-		const Animal* j = new Dog();
-		const Animal* i = new Cat();
+		const AAnimal* j = new Dog();
+		const AAnimal* i = new Cat();
 
 		std::cout << "\033[1;34m=== Checking Types ===\033[0m" << std::endl;
 		std::cout << "Expected: Dog, Actual: "<< j->getType() << std::endl;
@@ -47,8 +49,8 @@ int main()
 		std::cout << "\033[1;35m=== Test Concluded ===\033[0m" << std::endl;
 	}
 
+	//default Wrong Polymorthism implementation test
 	{
-		// Test with WrongAnimal and WrongCat (Demonstrating the Polymorphism Issue)
 		std::cout << "\033[1;35m\n=== WrongAnimal Test ===\033[0m" << std::endl;
 
 		std::cout << "\033[1;32m=== Constructors ===\033[0m" << std::endl;
@@ -76,8 +78,10 @@ int main()
 
 		std::cout << "\033[1;35m=== WrongAnimal Test Concluded ===\033[0m\n" << std::endl;
 	}
+
+	// Copy and Assignment test
 	{
-		std::cout << "\033[1;35m\n=== Extra Tests: Copy and Assignment ===\033[0m" << std::endl;
+		std::cout << "\033[1;35m\n=== Copy and Assignment ===\033[0m" << std::endl;
 
 		std::cout << "\033[1;32m=== Creating Original Objects ===\033[0m" << std::endl;
 		Dog originalDog;
@@ -98,6 +102,83 @@ int main()
 		assignedWrongCat = copiedWrongCat;
 		std::cout << "\033[1;31m=== Destructors ===\033[0m" << std::endl;
 	}
-	std::cout << "\033[1;35m=== Extra Tests Concluded ===\033[0m\n" << std::endl;
+	std::cout << "\033[1;35m=== Copy and Assignment Tests Concluded ===\033[0m\n" << std::endl;
+
+	//Polymorthism Memory Test
+	{
+		#define ANIMAL_AMOUNT 8
+
+		std::cout << "\033[1;35m\n=== Polymorthism Memory Test ===\033[0m" << std::endl;
+
+		std::cout << "\033[1;32m=== Creating Animal Array ===\033[0m" << std::endl;
+		AAnimal* animals[ANIMAL_AMOUNT];
+
+		for (int i = 0; i < ANIMAL_AMOUNT / 2; i++)
+			animals[i] = new Dog();
+		for (int i = ANIMAL_AMOUNT / 2; i < ANIMAL_AMOUNT; i++)
+			animals[i] = new Cat();
+
+		std::cout << "\033[1;34m=== Making Sounds ===\033[0m" << std::endl;
+		for (int i = 0; i < ANIMAL_AMOUNT; i++)
+			animals[i]->makeSound();
+
+		std::cout << "\033[1;31m=== Deleting Animals ===\033[0m" << std::endl;
+		for (int i = 0; i < ANIMAL_AMOUNT; i++)
+			delete animals[i];
+
+		std::cout << "\033[1;35m=== Polymorthism Memory Test Concluded ===\033[0m\n" << std::endl;
+	}
+
+	//Deep Copy Test
+	{
+		std::cout << "\033[1;35m\n=== Deep Copy Test ===\033[0m" << std::endl;
+
+		std::cout << "\033[1;32m=== Creating oldDog ===\033[0m" << std::endl;
+		Dog oldDog;
+		oldDog.setIdea(0, "I love my human!");
+
+		std::cout << "\033[1;32m=== Copying Dog ===\033[0m" << std::endl;
+		Dog copiedDog(oldDog);
+
+		std::cout << "oldDog Idea (pre change): " << oldDog.getIdea(0) << std::endl;
+		std::cout << "copiedDog Idea (pre change): " << copiedDog.getIdea(0) << std::endl;
+
+		copiedDog.setIdea(0, "I hate my human!!!");
+
+		std::cout << "oldDog Idea (post change): " << oldDog.getIdea(0) << std::endl;
+		std::cout << "copiedDog Idea (post change): " << copiedDog.getIdea(0) << std::endl;
+		std::cout << "\033[1;31m=== Destructors Called ===\033[0m" << std::endl;
+	}
+	std::cout << "\033[1;35m=== Deep Copy Test Concluded ===\033[0m\n" << std::endl;
+	/*
+		// THIS IS A TEST FOR SHOWING THAT AANIMAL IS NOW AN ABSTRACT CLASS AND THE COMPILER WILL STOP IT
+		AAnimal Animal;
+	*/	
+	// Default Polymorphism Test with abstract class
+	{
+		std::cout << "\033[1;35m=== Abstract Polymorthism Test ===\033[0m" << std::endl;
+		std::cout << "\033[1;32m=== Constructors ===\033[0m" << std::endl;
+		const AAnimal* j = new Dog();
+		const AAnimal* i = new Cat();
+
+		std::cout << "\033[1;34m=== Checking Types ===\033[0m" << std::endl;
+		std::cout << "Expected: Dog, Actual: "<< j->getType() << std::endl;
+		std::cout << "Expected: Cat, Actual: "<< i->getType() << std::endl;
+
+		std::cout << "\033[1;34m=== Making Sounds ===\033[0m" << std::endl;
+		std::cout << "Dog Says: ";
+		j->makeSound();
+		std::cout << "Cat Says: ";
+		i->makeSound();
+
+		std::cout << "\033[1;31m=== Destructors Called ===\033[0m" << std::endl;
+		delete j;
+		delete i;
+
+		std::cout << "\033[1;35m=== Abstract Polymorthism Test Concluded ===\033[0m" << std::endl;
+	}
+	std::cout << "\033[1;35m\n=== All Tests Concluded ===\033[0m\n" << std::endl;
+	
 	return 0;
 }
+
