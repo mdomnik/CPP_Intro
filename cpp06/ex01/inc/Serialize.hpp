@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ScalarConverter.hpp                                :+:      :+:    :+:   */
+/*   Serialize.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/07 14:10:41 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/05/11 21:45:34 by mdomnik          ###   ########.fr       */
+/*   Created: 2025/05/08 23:36:20 by mdomnik           #+#    #+#             */
+/*   Updated: 2025/05/11 21:46:09 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SCALARCONVERTER_HPP
-# define SCALARCONVERTER_HPP
+#ifndef SERIALIZE_HPP
+# define SERIALIZE_HPP
 
-#include <string>
+#include "Data.hpp"
+#include <stdint.h>
 
-class ScalarConverter
+class Serializer
 {
 	private:
-		ScalarConverter(); // Default constructor
-		ScalarConverter(const ScalarConverter &other); // Copy constructor
-		ScalarConverter &operator=(const ScalarConverter &other); // Assignment operator
-		~ScalarConverter(); // Destructor
+		Serializer(); // Default constructor
+		Serializer(const Serializer &other); // Copy constructor
+		Serializer &operator=(const Serializer &other); // Assignment operator
+		~Serializer(); // Destructor
 	public:
-		static void convert(const std::string &literal);
+		static uintptr_t serialize(Data *ptr);
+		static Data *deserialize(uintptr_t raw);
 };
 
 #endif

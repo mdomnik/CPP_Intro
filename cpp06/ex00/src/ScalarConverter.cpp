@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:15:05 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/05/08 22:40:58 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/05/11 21:45:20 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,32 @@
 #include <cstdlib>
 #include <limits>
 #include <iomanip>
+
+// Default constructor
+ScalarConverter::ScalarConverter()
+{
+	std::cout << "Default constructor called" << std::endl;
+}
+// Copy constructor
+ScalarConverter::ScalarConverter(const ScalarConverter &other)
+{
+	(void)other;
+	std::cout << "Copy constructor called" << std::endl;
+}
+
+// Assignment operator
+ScalarConverter &ScalarConverter::operator=(const ScalarConverter &other)
+{
+	(void)other;
+	std::cout << "Assignment operator called" << std::endl;
+	return (*this);
+}
+
+// Destructor
+ScalarConverter::~ScalarConverter()
+{
+	std::cout << "Destructor called" << std::endl;
+}
 
 static t_literalType detectType(const std::string &literal)
 {
