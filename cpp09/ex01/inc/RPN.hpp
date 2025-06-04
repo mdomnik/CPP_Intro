@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 02:34:19 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/06/04 02:37:01 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:57:44 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 class RPN
 {
 	private:
+		std::stack<int>_operands;
+		bool ApplyOperator(const char& c);
 	public:
 		//orthodox form
 		RPN(); //default constructor
@@ -27,8 +29,7 @@ class RPN
 		~RPN(); //destructor
 
 		//member functions
-		void process(const std::string& expression);
-
-}
+		void process(const std::string& input);
+};
 
 #endif
