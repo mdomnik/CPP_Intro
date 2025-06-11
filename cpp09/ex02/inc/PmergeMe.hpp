@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 17:12:03 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/06/11 03:02:02 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/06/11 05:25:06 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@
 class PmergeMe {
 	private:
 		std::vector<unsigned int> _vectorContainer;
-		double _vectorSortTime;
-
 		std::deque<unsigned int> _dequeContainer;
-		double _dequeSortTime;
 
 	public:
 		//orthodox canonical form
@@ -32,18 +29,35 @@ class PmergeMe {
 		PmergeMe &operator=(const PmergeMe& other); //copy assignment operator
 		~PmergeMe(); //destructor
 
-		//getters
-		std::vector<unsigned int> getVectorContainer();
-		
-		//member functions
+		//---member functions---
+
+		//parsing
+		unsigned int validateNumber(const std::string& str);
 		void parseInput(char **argv);
 
-		void sortVectorContainer();
-		//void sortDeque();
+		//binary search
+		void comparePairs(unsigned int a, unsigned int b, unsigned int &small, unsigned int &big);
+		void binaryInsertionVector(unsigned int element, std::vector<unsigned int> &vc);
+		void binaryInsertionDeque(unsigned int element, std::deque<unsigned int> &dc);
 
-		//testing functions
-		void printVector() const;
-		void printDeque() const;
+		//Jacobsthal
+		std::vector<size_t> JacobsthalNumsVector(size_t n);
+		std::deque<size_t> JacobsthalNumsDeque(size_t n);
+
+		//sorting
+		std::vector<unsigned int> sortVector(std::vector<unsigned int> vc);
+		std::deque<unsigned int> sortDeque(std::deque<unsigned int> vc);
+		
+		//init sort call
+		void sortVectorContainer();
+		void sortDequeContainer();
+
+		//printing functions
+		void printSequenceBefore() const;
+		void printSequenceAfter() const;
+
+		//wrapper
+		void performSort(char **argv);
 };
 
 #endif

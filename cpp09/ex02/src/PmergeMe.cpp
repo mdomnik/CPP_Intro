@@ -6,32 +6,31 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 17:11:45 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/06/11 03:06:55 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/06/11 05:25:31 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/PmergeMe.hpp"
 #include <iostream>
+#include <algorithm>
+#include <iomanip>
 #include <sstream>
 #include <string>
 #include <cstdlib>
 #include <limits>
 #include <sys/time.h>
-#include <set>
 
 //default construcotr
-PmergeMe::PmergeMe(void) : _vectorContainer(), _vectorSortTime(0), _dequeContainer(), _dequeSortTime(0) {};
+PmergeMe::PmergeMe(void) : _vectorContainer(), _dequeContainer() {};
 
 //copy constructor
-PmergeMe::PmergeMe(const PmergeMe& other) : _vectorContainer(other._vectorContainer), _vectorSortTime(other._vectorSortTime), _dequeContainer(other._dequeContainer), _dequeSortTime(other._dequeSortTime) {};
+PmergeMe::PmergeMe(const PmergeMe& other) : _vectorContainer(other._vectorContainer), _dequeContainer(other._dequeContainer) {};
 
 //copy assignment operator
 PmergeMe& PmergeMe::operator=(const PmergeMe& other) {
 	if (this != &other) {
 		_vectorContainer = other._vectorContainer;
 		_dequeContainer = other._dequeContainer;
-		_vectorSortTime = other._vectorSortTime;
-		_dequeSortTime = other._dequeSortTime;
 	}
 	return *this;
 }
@@ -42,14 +41,8 @@ PmergeMe::~PmergeMe(void) {
 	_dequeContainer.clear();
 }
 
-//getter for vector container
-std::vector<unsigned int> PmergeMe::getVectorContainer()
-{
-	return _vectorContainer;
-}
-
 //helper function checking for input validity
-static unsigned int validateNumber(const std::string& str)
+unsigned int PmergeMe::validateNumber(const std::string& str)
 {
 	if (str.empty())
 		throw std::invalid_argument("Empty input");
@@ -70,6 +63,8 @@ static unsigned int validateNumber(const std::string& str)
 		throw std::invalid_argument("Failed to parse number: " + str);
 	if (result > std::numeric_limits<unsigned int>::max())
 		throw std::out_of_range("Number out of range: " + str);
+	if (result == 0)
+		throw std::invalid_argument("Zero is not a positive number");
 
 	return (result);
 }
@@ -93,9 +88,10 @@ void PmergeMe::parseInput(char** argv)
 		_vectorContainer.push_back(value);
 		_dequeContainer.push_back(value);
 	}
+	printSequenceBefore();
 }
 
-static void comparePairs(unsigned int a, unsigned int b, unsigned int &small, unsigned int &big)
+void PmergeMe::comparePairs(unsigned int a, unsigned int b, unsigned int &small, unsigned int &big)
 {
 	if (a > b)
 	{
@@ -109,7 +105,7 @@ static void comparePairs(unsigned int a, unsigned int b, unsigned int &small, un
 	}
 }
 
-static void binaryInsertionVector(unsigned int element, std::vector<unsigned int> &vc)
+void PmergeMe::binaryInsertionVector(unsigned int element, std::vector<unsigned int> &vc)
 {
 	size_t low = 0;
 	size_t high = vc.size();
@@ -125,13 +121,86 @@ static void binaryInsertionVector(unsigned int element, std::vector<unsigned int
 	vc.insert(vc.begin() + low, element);
 }
 
-static std::vector<unsigned int> sortVector(std::vector<unsigned int> vc)
+void PmergeMe::binaryInsertionDeque(unsigned int element, std::deque<unsigned int> &dc)
+{
+	size_t low = 0;
+	size_t high = dc.size();
+
+	while (low < high)
+	{
+		size_t mid = (low + high) / 2;
+		if (element < dc[mid])
+			high = mid;
+		else
+			low = mid + 1;
+	}
+	dc.insert(dc.begin() + low, element);
+}
+
+std::vector<size_t> PmergeMe::JacobsthalNumsVector(size_t n)
+{
+	std::vector<size_t> numbers;
+	if (n == 0)
+		return (numbers);
+
+	std::vector<size_t> j;
+	j.push_back(0);
+	if (n > 1)
+		j.push_back(1);
+	
+	int i = 2;
+	while (j.size() >= 2)
+	{
+		size_t value = j[j.size() - 1] + 2 * j[j.size() - 2];
+		if (value >= n)
+			break;
+		j.push_back(value);
+		i++;
+	}
+	
+	for (size_t k = 1; k < j.size(); ++k)
+		numbers.push_back(j[k]);
+	for (size_t k = 0; k < n; ++k)
+		if (std::find(numbers.begin(), numbers.end(), k) == numbers.end())
+			numbers.push_back(k);
+	return (numbers);
+}
+
+std::deque<size_t> PmergeMe::JacobsthalNumsDeque(size_t n)
+{
+	std::deque<size_t> numbers;
+	if (n == 0)
+		return (numbers);
+
+	std::deque<size_t> j;
+	j.push_back(0);
+	if (n > 1)
+		j.push_back(1);
+	
+	int i = 2;
+	while (j.size() >= 2)
+	{
+		size_t value = j[j.size() - 1] + 2 * j[j.size() - 2];
+		if (value >= n)
+			break;
+		j.push_back(value);
+		i++;
+	}
+	for (size_t k = 1; k < j.size(); ++k)
+		numbers.push_back(j[k]);
+	for (size_t k = 0; k < n; ++k)
+		if (std::find(numbers.begin(), numbers.end(), k) == numbers.end())
+			numbers.push_back(k);
+	return (numbers);
+}
+
+std::vector<unsigned int> PmergeMe::sortVector(std::vector<unsigned int> vc)
 {
 	if (vc.size() <= 1)
 		return (vc);
 
 	std::vector<unsigned int> largeContainer, smallContainer;
-	unsigned int largeNum, smallNum, leftover;
+	unsigned int largeNum, smallNum, leftover = 0;
 
 	for (size_t i = 0; i + 1 < vc.size(); i += 2)
 	{
@@ -144,40 +213,93 @@ static std::vector<unsigned int> sortVector(std::vector<unsigned int> vc)
 		leftover = vc.back();
 	
 	std::vector<unsigned int> sortedContainer = sortVector(largeContainer);
-	while (smallContainer.size() > 0)
-	{
-		binaryInsertionVector(smallContainer.back(), sortedContainer);
-		smallContainer.pop_back();
-	}
+	std::vector<size_t> order = JacobsthalNumsVector(smallContainer.size());
+	for (std::vector<size_t>::iterator it = order.begin(); it != order.end(); ++it)
+		binaryInsertionVector(smallContainer[*it], sortedContainer);
 	if (vc.size() % 2 == 1)
 		binaryInsertionVector(leftover, sortedContainer);
+	return (sortedContainer);
+}
+
+std::deque<unsigned int> PmergeMe::sortDeque(std::deque<unsigned int> vc)
+{
+	if (vc.size() <= 1)
+		return (vc);
+
+	std::deque<unsigned int> largeContainer, smallContainer;
+	unsigned int largeNum, smallNum, leftover = 0;
+
+	for (size_t i = 0; i + 1 < vc.size(); i += 2)
+	{
+		comparePairs(vc[i], vc[i + 1], smallNum, largeNum);
+		smallContainer.push_back(smallNum);
+		largeContainer.push_back(largeNum);
+	}
+	
+	if (vc.size() % 2 == 1)
+		leftover = vc.back();
+	
+	std::deque<unsigned int> sortedContainer = sortDeque(largeContainer);
+	std::deque<size_t> order = JacobsthalNumsDeque(smallContainer.size());
+	for (std::deque<size_t>::iterator it = order.begin(); it != order.end(); ++it)
+		binaryInsertionDeque(smallContainer[*it], sortedContainer);
+	if (vc.size() % 2 == 1)
+		binaryInsertionDeque(leftover, sortedContainer);
 	return (sortedContainer);
 }
 
 
 void PmergeMe::sortVectorContainer()
 {
-	//measure time taken to sort the vector
+	timeval start, end;
+	gettimeofday(&start, NULL);
 	_vectorContainer = sortVector(_vectorContainer);
-	//end time measurement
+	gettimeofday(&end, NULL);
+	printSequenceAfter();
+	double duration = (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec) / 1e6;
+	std::cout << "Time to process a range of " << _vectorContainer.size()
+			  << " elements with std::vector : "
+			  << std::fixed << std::setprecision(5)
+			  << duration << " us" << std::endl;
+
+}
+
+void PmergeMe::sortDequeContainer()
+{
+	timeval start, end;
+	gettimeofday(&start, NULL);
+	_dequeContainer = sortDeque(_dequeContainer);
+	gettimeofday(&end, NULL);
+	double duration = (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec) / 1e6;
+	std::cout << "Time to process a range of " << _dequeContainer.size()
+			  << " elements with std::deque : "
+			  << std::fixed << std::setprecision(5)
+			  << duration << " us" << std::endl;
 }
 
 
 //printVector function
-void PmergeMe::printVector() const
+void PmergeMe::printSequenceBefore() const
 {
-	std::cout << "vector: ";
+	std::cout << "Before: ";
 	for (std::vector<unsigned int>::const_iterator i = _vectorContainer.begin(); i != _vectorContainer.end(); ++i)
 		std::cout << *i << " ";
 	std::cout << std::endl;
-	std::cout << "time: " << _vectorSortTime << std::endl;
 }
 
 //printDeque function
-void PmergeMe::printDeque() const
+void PmergeMe::printSequenceAfter() const
 {
-	std::cout << "deque: ";
-	for (std::deque<unsigned int>::const_iterator i = _dequeContainer.begin(); i != _dequeContainer.end(); ++i)
+	std::cout << "After: ";
+	for (std::vector<unsigned int>::const_iterator i = _vectorContainer.begin(); i != _vectorContainer.end(); ++i)
 		std::cout << *i << " ";
 	std::cout << std::endl;
+}
+
+//wrapper function
+void PmergeMe::performSort(char **argv)
+{
+	parseInput(argv);
+	sortVectorContainer();
+	sortDequeContainer();
 }
