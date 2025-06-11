@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 17:11:45 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/06/11 05:25:31 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/06/11 18:25:08 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 #include <iomanip>
 #include <sstream>
 #include <string>
+#include <set>
 #include <cstdlib>
 #include <limits>
-#include <sys/time.h>
+#include <ctime>
 
 //default construcotr
 PmergeMe::PmergeMe(void) : _vectorContainer(), _dequeContainer() {};
@@ -139,59 +140,46 @@ void PmergeMe::binaryInsertionDeque(unsigned int element, std::deque<unsigned in
 
 std::vector<size_t> PmergeMe::JacobsthalNumsVector(size_t n)
 {
-	std::vector<size_t> numbers;
-	if (n == 0)
-		return (numbers);
-
+	std::set<size_t> uniqueNums;
 	std::vector<size_t> j;
-	j.push_back(0);
+	if (n > 0)
+		j.push_back(0);
 	if (n > 1)
 		j.push_back(1);
-	
-	int i = 2;
 	while (j.size() >= 2)
 	{
 		size_t value = j[j.size() - 1] + 2 * j[j.size() - 2];
 		if (value >= n)
 			break;
 		j.push_back(value);
-		i++;
-	}
-	
+	}	
 	for (size_t k = 1; k < j.size(); ++k)
-		numbers.push_back(j[k]);
+		uniqueNums.insert(j[k]);
 	for (size_t k = 0; k < n; ++k)
-		if (std::find(numbers.begin(), numbers.end(), k) == numbers.end())
-			numbers.push_back(k);
-	return (numbers);
+		uniqueNums.insert(k);
+	return (std::vector<size_t>(uniqueNums.begin(), uniqueNums.end()));
 }
 
 std::deque<size_t> PmergeMe::JacobsthalNumsDeque(size_t n)
 {
-	std::deque<size_t> numbers;
-	if (n == 0)
-		return (numbers);
-
+	std::set<size_t> uniqueNums;
 	std::deque<size_t> j;
-	j.push_back(0);
+	if (n > 0)
+		j.push_back(0);
 	if (n > 1)
 		j.push_back(1);
-	
-	int i = 2;
 	while (j.size() >= 2)
 	{
 		size_t value = j[j.size() - 1] + 2 * j[j.size() - 2];
 		if (value >= n)
 			break;
 		j.push_back(value);
-		i++;
-	}
+	}	
 	for (size_t k = 1; k < j.size(); ++k)
-		numbers.push_back(j[k]);
+		uniqueNums.insert(j[k]);
 	for (size_t k = 0; k < n; ++k)
-		if (std::find(numbers.begin(), numbers.end(), k) == numbers.end())
-			numbers.push_back(k);
-	return (numbers);
+		uniqueNums.insert(k);
+	return (std::deque<size_t>(uniqueNums.begin(), uniqueNums.end()));
 }
 
 std::vector<unsigned int> PmergeMe::sortVector(std::vector<unsigned int> vc)
@@ -200,23 +188,20 @@ std::vector<unsigned int> PmergeMe::sortVector(std::vector<unsigned int> vc)
 		return (vc);
 
 	std::vector<unsigned int> largeContainer, smallContainer;
-	unsigned int largeNum, smallNum, leftover = 0;
-
+	unsigned int largeNum, smallNum;
+	bool hasLeftover = (vc.size() % 2 == 1);
+	unsigned int leftover = hasLeftover ? vc.back() : 0;
 	for (size_t i = 0; i + 1 < vc.size(); i += 2)
 	{
 		comparePairs(vc[i], vc[i + 1], smallNum, largeNum);
 		smallContainer.push_back(smallNum);
 		largeContainer.push_back(largeNum);
 	}
-	
-	if (vc.size() % 2 == 1)
-		leftover = vc.back();
-	
 	std::vector<unsigned int> sortedContainer = sortVector(largeContainer);
 	std::vector<size_t> order = JacobsthalNumsVector(smallContainer.size());
 	for (std::vector<size_t>::iterator it = order.begin(); it != order.end(); ++it)
 		binaryInsertionVector(smallContainer[*it], sortedContainer);
-	if (vc.size() % 2 == 1)
+	if (hasLeftover)
 		binaryInsertionVector(leftover, sortedContainer);
 	return (sortedContainer);
 }
@@ -227,23 +212,20 @@ std::deque<unsigned int> PmergeMe::sortDeque(std::deque<unsigned int> vc)
 		return (vc);
 
 	std::deque<unsigned int> largeContainer, smallContainer;
-	unsigned int largeNum, smallNum, leftover = 0;
-
+	unsigned int largeNum, smallNum;
+	bool hasLeftover = (vc.size() % 2 == 1);
+	unsigned int leftover = hasLeftover ? vc.back() : 0;
 	for (size_t i = 0; i + 1 < vc.size(); i += 2)
 	{
 		comparePairs(vc[i], vc[i + 1], smallNum, largeNum);
 		smallContainer.push_back(smallNum);
 		largeContainer.push_back(largeNum);
 	}
-	
-	if (vc.size() % 2 == 1)
-		leftover = vc.back();
-	
 	std::deque<unsigned int> sortedContainer = sortDeque(largeContainer);
 	std::deque<size_t> order = JacobsthalNumsDeque(smallContainer.size());
 	for (std::deque<size_t>::iterator it = order.begin(); it != order.end(); ++it)
 		binaryInsertionDeque(smallContainer[*it], sortedContainer);
-	if (vc.size() % 2 == 1)
+	if (hasLeftover)
 		binaryInsertionDeque(leftover, sortedContainer);
 	return (sortedContainer);
 }
@@ -251,12 +233,12 @@ std::deque<unsigned int> PmergeMe::sortDeque(std::deque<unsigned int> vc)
 
 void PmergeMe::sortVectorContainer()
 {
-	timeval start, end;
-	gettimeofday(&start, NULL);
+	clock_t start, end;
+	start = clock();
 	_vectorContainer = sortVector(_vectorContainer);
-	gettimeofday(&end, NULL);
+	end = clock();
 	printSequenceAfter();
-	double duration = (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec) / 1e6;
+	double duration = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1e6;
 	std::cout << "Time to process a range of " << _vectorContainer.size()
 			  << " elements with std::vector : "
 			  << std::fixed << std::setprecision(5)
@@ -266,11 +248,11 @@ void PmergeMe::sortVectorContainer()
 
 void PmergeMe::sortDequeContainer()
 {
-	timeval start, end;
-	gettimeofday(&start, NULL);
+	clock_t start, end;
+	start = clock();
 	_dequeContainer = sortDeque(_dequeContainer);
-	gettimeofday(&end, NULL);
-	double duration = (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec) / 1e6;
+	end = clock();
+	double duration = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1e6;
 	std::cout << "Time to process a range of " << _dequeContainer.size()
 			  << " elements with std::deque : "
 			  << std::fixed << std::setprecision(5)
