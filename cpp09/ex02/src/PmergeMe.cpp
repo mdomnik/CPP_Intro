@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 17:11:45 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/06/09 02:26:10 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/06/11 03:06:55 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,107 +95,71 @@ void PmergeMe::parseInput(char** argv)
 	}
 }
 
-static void sortPairs(unsigned int num1, unsigned int num2, unsigned int &small, unsigned int &big)
+static void comparePairs(unsigned int a, unsigned int b, unsigned int &small, unsigned int &big)
 {
-	if (num1 < num2)
+	if (a > b)
 	{
-		small = num1;
-		big = num2;
+		big = a;
+		small = b;
 	}
 	else
 	{
-		small = num2;
-		big = num1;
+		big = b;
+		small = a;
 	}
 }
 
-static size_t jacobsthalCheck(size_t num)
+static void binaryInsertionVector(unsigned int element, std::vector<unsigned int> &vc)
 {
-	if (num == 0)
-		return (0);
-	if (num == 1)
-		return (1);
-	size_t ret = jacobsthalCheck(num - 1) + 2 * jacobsthalCheck(num - 2);
-	return (ret);
-		
-}
+	size_t low = 0;
+	size_t high = vc.size();
 
-static std::vector<size_t> getJacobsthalNumbers(size_t size)
-{
-	std::vector<size_t> numbers;
-	std::set<size_t> seen;
-	size_t i = 1;
-
-	while (1)
+	while (low < high)
 	{
-		i = jacobsthalCheck(i);
-		if (i >= size)
-			break;
-		if (seen.find(i) == seen.end())
-		{
-			numbers.push_back(i);
-			seen.insert(i);
-		}
-		i++;
-	}
-	for (size_t k = 0; k < size; ++k)
-	{
-		if (seen.find(k) == seen.end())
-			numbers.push_back(k);
-	}
-	return (numbers);
-}
-
-static void insertVector(std::vector<unsigned int>& vec, unsigned int value)
-{
-	size_t left = 0;
-	size_t right = vec.size();
-
-	while (left < right)
-	{
-		size_t mid = (left + right) / 2;
-		if (value < vec[mid])
-			right = mid;
+		size_t mid = (low + high) / 2;
+		if (element < vc[mid])
+			high = mid;
 		else
-			left = mid + 1;
+			low = mid + 1;
 	}
-	vec.insert(vec.begin() + left, value);
+	vc.insert(vc.begin() + low, element);
 }
 
-//Sorting Functions for vector container (Ford=Johnson / merge-sort)
-std::vector<unsigned int> PmergeMe::sortVector(std::vector<unsigned int> vc)
+static std::vector<unsigned int> sortVector(std::vector<unsigned int> vc)
 {
 	if (vc.size() <= 1)
 		return (vc);
-	
-	std::vector<unsigned int> pend, mainChain;
-	unsigned int small, big;
-	
-	for (size_t i = 0; i < vc.size() - 1; i += 2)
-	{
-		sortPairs(vc[i], vc[i + 1], small, big);
-		pend.push_back(small);
-		mainChain.push_back(big);
-	}
-	
-	bool isremain = vc.size() % 2 == 1;
-	unsigned int remain = 0;
-	if (isremain)
-		remain = vc[vc.size() - 1];
-	
-	mainChain = sortVector(mainChain);
 
-	std::vector<size_t> jnum = getJacobsthalNumbers(pend.size());
-	for (size_t i = 0; i < jnum.size(); ++i)
+	std::vector<unsigned int> largeContainer, smallContainer;
+	unsigned int largeNum, smallNum, leftover;
+
+	for (size_t i = 0; i + 1 < vc.size(); i += 2)
 	{
-		size_t index = jnum[i];
-		if (index < pend.size())
-			insertVector(mainChain, pend[index]);
+		comparePairs(vc[i], vc[i + 1], smallNum, largeNum);
+		smallContainer.push_back(smallNum);
+		largeContainer.push_back(largeNum);
 	}
 	
-	if (isremain)
-		insertVector(mainChain, remain);
-	return mainChain;
+	if (vc.size() % 2 == 1)
+		leftover = vc.back();
+	
+	std::vector<unsigned int> sortedContainer = sortVector(largeContainer);
+	while (smallContainer.size() > 0)
+	{
+		binaryInsertionVector(smallContainer.back(), sortedContainer);
+		smallContainer.pop_back();
+	}
+	if (vc.size() % 2 == 1)
+		binaryInsertionVector(leftover, sortedContainer);
+	return (sortedContainer);
+}
+
+
+void PmergeMe::sortVectorContainer()
+{
+	//measure time taken to sort the vector
+	_vectorContainer = sortVector(_vectorContainer);
+	//end time measurement
 }
 
 

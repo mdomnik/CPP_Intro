@@ -6,7 +6,7 @@
 /*   By: mdomnik <mdomnik@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 17:12:03 by mdomnik           #+#    #+#             */
-/*   Updated: 2025/06/09 02:24:17 by mdomnik          ###   ########.fr       */
+/*   Updated: 2025/06/11 03:02:02 by mdomnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ class PmergeMe {
 		//member functions
 		void parseInput(char **argv);
 
-		std::vector<unsigned int> sortVector(std::vector<unsigned int> vc);
+		void sortVectorContainer();
 		//void sortDeque();
 
 		//testing functions
